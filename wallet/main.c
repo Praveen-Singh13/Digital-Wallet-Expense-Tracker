@@ -11,8 +11,7 @@ int main()
         printf("1. Add Transaction\n");
         printf("2. View Transactions\n");
         printf("3. Search Transactions\n");
-        printf("4. Delete Transaction\n");
-        printf("5. Exit\n");
+        printf("4. Exit\n");
         printf("Enter your choice: ");
         scanf("%d", &choice);
         switch(choice)
