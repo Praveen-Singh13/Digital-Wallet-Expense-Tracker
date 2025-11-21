@@ -19,15 +19,12 @@ int main()
         {
             case 1:
                 addTransaction();
-                //TODO
                 break;
             case 2:
                 calculateBalance();
-                //TODO
                 break;
             case 3:
                 generateReport();
-                //TODO
                 break;
             case 4:
                 printf("We are exiting the program.\n");
