@@ -21,26 +21,43 @@ struct transaction_details
     char merchant[50];
 };
 struct transaction_details *list = NULL;
+static int transactionCount = 0;
+
+
+
+void clearBuffer()
+{
+    while(getchar() != '\n');
+}
 
 
 void addTransaction()
 {
     struct transaction_details newTransaction;
-    printf("Enter transaction type (income/expense): ");
-    strcnpy(newTransaction.type, 50, stdin);
-    printf("Enter amount: ");
+    printf("Enter transaction type (income/expense):\n");
+    
+    fgets(newTransaction.type, 50, stdin);
+    
+    printf("Enter amount:\n ");
     scanf("%f", &newTransaction.amount);
-    printf("Enter category: ");
-    strcnpy(newTransaction.category, 50, stdin);
-    printf("Enter date (DD MM YYYY): ");
+    clearBuffer();
+    printf("Enter category:\n ");
+    fgets(newTransaction.category, 50, stdin);
+    
+    printf("Enter date (DD MM YYYY):\n"); 
+    
     scanf("%d %d %d", &newTransaction.t.day, &newTransaction.t.month, &newTransaction.t.year);
-    printf("Enter time (HH MM): ");
+    
+    printf("Enter time (HH MM):\n");
+    
     scanf("%d %d", &newTransaction.t.hour, &newTransaction.t.minute);
-    printf("Enter merchant: ");
-    strcnpy(newTransaction.merchant, 50, stdin);
+    clearBuffer();
+    printf("Enter merchant:\n");
+    fgets(newTransaction.merchant, 50, stdin);
+    
     //store the newTransaction in the TransactionList
     
-    static int transactionCount = 0;
+    
     list = realloc(list, sizeof(struct transaction_details) * (transactionCount + 1));
     list[transactionCount] = newTransaction;
     transactionCount++;
@@ -51,7 +68,7 @@ void calculateBalance()
 {
     //calculate and return the balance
     float balance = 0.0;
-    for(int i = 0; i < sizeof(list)/sizeof(list[0]); i++)
+    for(int i = 0; i < transactionCount; i++)
     {
         if(strcmp(list[i].type, "income") == 0)
         {
@@ -71,7 +88,7 @@ void generateReport()
 {
     //generate and print the report of transactions
     printf("Transaction Report:\n");
-    for(int i = 0; i < sizeof(list)/sizeof(list[0]); i++)
+    for(int i = 0; i < transactionCount; i++)
     {
         printf("Type: %s, Amount: %.2f, Category: %s, Date: %02d/%02d/%04d, Time: %02d:%02d, Merchant: %s\n",
                list[i].type, list[i].amount, list[i].category,

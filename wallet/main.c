@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include <stdlib.h>
+#include "functions.h"
 
 int main()
 {
@@ -7,12 +8,19 @@ int main()
     while(1)
     {
         printf("\nDigital Wallet and Expense Tracker\n");
+    
         printf("1. Add Transaction\n");
+        
         printf("2. View Balance\n");
+        
         printf("3. View Transactions\n");
+        
         printf("4. Exit\n");
+    
         printf("Enter your choice: ");
+
         scanf("%d", &choice);
+        clearBuffer();
         switch(choice)
         {
             case 1:
