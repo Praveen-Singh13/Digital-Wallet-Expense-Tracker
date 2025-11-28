@@ -37,12 +37,14 @@ void addTransaction()
     printf("Enter transaction type (income/expense):\n");
     
     fgets(newTransaction.type, 50, stdin);
-    
+    newTransaction.type[strcspn(newTransaction.type, "\n")] = 0;
+
     printf("Enter amount:\n ");
     scanf("%f", &newTransaction.amount);
     clearBuffer();
     printf("Enter category:\n ");
     fgets(newTransaction.category, 50, stdin);
+    newTransaction.category[strcspn(newTransaction.category, "\n")] = 0;
     
     printf("Enter date (DD MM YYYY):\n"); 
     
@@ -96,4 +98,6 @@ void generateReport()
                list[i].t.hour, list[i].t.minute,
                list[i].merchant);
     }
+    //monthly analysis can be added here
+    
 }
