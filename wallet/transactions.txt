@@ -1,0 +1,4 @@
+income 50000.00 salary 30 11 2025 19 22 microsoft
+
+expense 500.00 food  30 11 2025 19 30 dominos
+

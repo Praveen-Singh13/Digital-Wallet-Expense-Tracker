@@ -31,6 +31,57 @@ void clearBuffer()
 {
     while(getchar() != '\n');
 }
+void saveToFile() {
+    FILE *fp = fopen("transactions.txt", "w");
+    if (!fp) {
+        printf("Error opening file for writing!\n");
+        return;
+    }
+
+    for (int i = 0; i < transactionCount; i++) {
+        fprintf(fp, "%s %.2f %s %d %d %d %d %d %s\n",
+                list[i].type,
+                list[i].amount,
+                list[i].category,
+                list[i].t.day,
+                list[i].t.month,
+                list[i].t.year,
+                list[i].t.hour,
+                list[i].t.minute,
+                list[i].merchant);
+    }
+
+    fclose(fp);
+}
+
+void loadFromFile() {
+    FILE *fp = fopen("transactions.txt", "r");
+    if (!fp) {
+        return; // No file yet
+    }
+
+    while (!feof(fp)) {
+        struct transaction_details temp;
+
+        if (fscanf(fp, "%s %f %s %d %d %d %d %d %s",
+                   temp.type,
+                   &temp.amount,
+                   temp.category,
+                   &temp.t.day,
+                   &temp.t.month,
+                   &temp.t.year,
+                   &temp.t.hour,
+                   &temp.t.minute,
+                   temp.merchant) == 9)
+        {
+            list = realloc(list, sizeof(struct transaction_details) * (transactionCount + 1));
+            list[transactionCount] = temp;
+            transactionCount++;
+        }
+    }
+
+    fclose(fp);
+}
 
 
 int addTransaction()
@@ -40,15 +91,17 @@ int addTransaction()
     
     fgets(newTransaction.type, 50, stdin);
     newTransaction.type[strcspn(newTransaction.type, "\n")] = 0;
-     if(balance ==0.0&&strcmp(newTransaction.type, "expense") == 0)
-    {
-        printf("Warning: Your balance is zero and you have an expense transaction.\n");
-        printf("Transaction not Valid.\n");
-        return 0;
-    }
+    
 
     printf("Enter amount:\n ");
     scanf("%f", &newTransaction.amount);
+     if(newTransaction.amount>balance&&strcmp(newTransaction.type, "expense") == 0)
+    {
+        printf("Warning: Insufficient balance for this expense.\n");
+
+        printf("Transaction not Valid.\n");
+        return 0;
+    }
     clearBuffer();
     printf("Enter category:\n ");
     fgets(newTransaction.category, 50, stdin);
@@ -71,6 +124,7 @@ int addTransaction()
     list = realloc(list, sizeof(struct transaction_details) * (transactionCount + 1));
     list[transactionCount] = newTransaction;
     transactionCount++;
+    saveToFile();
     printf("Transaction added successfully!\n");
 }
 

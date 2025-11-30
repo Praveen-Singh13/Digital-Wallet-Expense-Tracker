@@ -4,6 +4,8 @@
 
 int main()
 {
+    loadFromFile();
+
     int choice;
     while(1)
     {
