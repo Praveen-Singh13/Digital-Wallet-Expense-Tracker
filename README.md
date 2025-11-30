@@ -39,6 +39,8 @@ Important:
 
 update the balance after every transaction as failing to do so can lead to code breaking.
 
+demo site is made using chatgpt by converting the logic/code in C to javascript
+
 ---------------------------------------------------------------------------------------------------------------------------
 
 contact me at riteshvish94@gmail.com for anything about this project.
