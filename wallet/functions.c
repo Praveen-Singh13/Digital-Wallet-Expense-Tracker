@@ -22,6 +22,8 @@ struct transaction_details
 };
 struct transaction_details *list = NULL;
 static int transactionCount = 0;
+struct transaction_details newTransaction;
+static float balance = 0.0;
 
 
 
@@ -31,13 +33,19 @@ void clearBuffer()
 }
 
 
-void addTransaction()
+int addTransaction()
 {
-    struct transaction_details newTransaction;
+
     printf("Enter transaction type (income/expense):\n");
     
     fgets(newTransaction.type, 50, stdin);
     newTransaction.type[strcspn(newTransaction.type, "\n")] = 0;
+     if(balance ==0.0&&strcmp(newTransaction.type, "expense") == 0)
+    {
+        printf("Warning: Your balance is zero and you have an expense transaction.\n");
+        printf("Transaction not Valid.\n");
+        return 0;
+    }
 
     printf("Enter amount:\n ");
     scanf("%f", &newTransaction.amount);
@@ -68,8 +76,9 @@ void addTransaction()
 
 void calculateBalance()
 {
-    //calculate and return the balance
-    float balance = 0.0;
+    //calculate and display balance
+
+    
     for(int i = 0; i < transactionCount; i++)
     {
         if(strcmp(list[i].type, "income") == 0)
@@ -82,14 +91,12 @@ void calculateBalance()
         }
     }
     printf("Current Balance: %.2f\n", balance);
-
-
-
 }
-void generateReport()
-{
-    //generate and print the report of transactions
-    printf("Transaction Report:\n");
+
+    void viewTransactions()
+    {
+    printf("Transactions:\n");
+
     for(int i = 0; i < transactionCount; i++)
     {
         printf("Type: %s, Amount: %.2f, Category: %s, Date: %02d/%02d/%04d, Time: %02d:%02d, Merchant: %s\n",
@@ -98,6 +105,46 @@ void generateReport()
                list[i].t.hour, list[i].t.minute,
                list[i].merchant);
     }
-    //monthly analysis can be added here
+   
+}
+
+void generateReport()
+{
+    //generate monthly reports
+    int month, year;
+    printf("Enter month and year for the report (MM YYYY):\n");
+    scanf("%d %d", &month, &year);
+
+    float totalIncome = 0.0;
+    float totalExpense = 0.0;
+    printf("Transactions for %02d/%04d:\n", month, year);
+    for(int i = 0; i < transactionCount; i++)
+    {
+        if(list[i].t.month == month && list[i].t.year == year)
+        {
+            printf("Type: %s, Amount: %.2f, Category: %s, Date: %02d/%02d/%04d, Time: %02d:%02d, Merchant: %s\n",
+                   list[i].type, list[i].amount, list[i].category,
+                   list[i].t.day, list[i].t.month, list[i].t.year,
+                   list[i].t.hour, list[i].t.minute,
+                   list[i].merchant);
+            if(strcmp(list[i].type, "income") == 0)
+            {
+                totalIncome += list[i].amount;
+            }
+            else if(strcmp(list[i].type, "expense") == 0)
+            {
+                totalExpense += list[i].amount;
+            }
+        }
+    }
+    printf("Total Income: %.2f\n", totalIncome);
+    printf("Total Expense: %.2f\n", totalExpense);
+    printf("Net Savings: %.2f\n", totalIncome - totalExpense);
+    
+    //alert if expenses exceed 75% of income
+    if(totalExpense > (0.75 * totalIncome))
+    {
+        printf("Alert: Your expenses exceeded your income this month!\n");
+    }
     
 }

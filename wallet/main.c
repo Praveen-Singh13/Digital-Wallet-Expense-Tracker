@@ -11,11 +11,15 @@ int main()
     
         printf("1. Add Transaction\n");
         
-        printf("2. View Balance\n");
-        
+        printf("2. Update and View Balance\n");
+
         printf("3. View Transactions\n");
         
-        printf("4. Exit\n");
+       
+        
+        printf("4. Generate Monthly Report\n");
+
+        printf("5. Exit\n");
     
         printf("Enter your choice: ");
 

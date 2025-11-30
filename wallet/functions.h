@@ -3,7 +3,9 @@
 
 void safelyReadString(char *buffer, int size);
 void clearBuffer();
-void addTransaction();
+int addTransaction();
 void calculateBalance();
 void generateReport();
+void viewTransactions();
 #endif
+
