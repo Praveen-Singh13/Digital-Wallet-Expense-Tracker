@@ -38,7 +38,7 @@ void clearBuffer()
 //-------------------File handling functions-------------------//
 
 void saveToFile() {
-    FILE *fp = fopen("transactions.txt","w");
+    FILE *fp = fopen("transactions.txt","a");
     if (!fp) {
         printf("File not opened!!\n");
         return;
